@@ -1,0 +1,258 @@
+@import 'tailwindcss';
+
+/*
+ * Wakefield Homes design tokens.
+ * Palette taken from the current wakefieldhomeslc.com: the logo's royal blue (#0B1D8A, brand-900,
+ * the primary), the periwinkle buttons and dividers (#96ACD9 brand-300, #5E7EBF brand-500), the site's
+ * primary/link blue (#0032A0, royal), the lavender link color (#A1A7FF lavender-400), the charcoal
+ * footer (#545454 charcoal-600) and the charcoal text (#191919 / #212934). Shades are tuned so text
+ * meets WCAG AA. Periwinkle surfaces always carry navy text (never white).
+ */
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, 'Times New Roman', serif;
+
+  --color-brand-50: #f2f5fc;
+  --color-brand-100: #e3e9f7;
+  --color-brand-200: #c9d4ee;
+  --color-brand-300: #96acd9;
+  --color-brand-400: #7b94cd;
+  --color-brand-500: #5e7ebf;
+  --color-brand-600: #4462ae;
+  --color-brand-700: #2c479f;
+  --color-brand-800: #172f93;
+  --color-brand-900: #0b1d8a;
+  --color-brand-950: #08135c;
+
+  /* The live site's primary / link blue. */
+  --color-royal: #0032a0;
+
+  /* The live site's charcoal footer (#545454) and nearby shades. */
+  --color-charcoal-300: #bdbdbd;
+  --color-charcoal-400: #9a9a9a;
+  --color-charcoal-500: #6e6e6e;
+  --color-charcoal-600: #545454;
+  --color-charcoal-700: #484848;
+  --color-charcoal-800: #3b3b3b;
+  --color-charcoal-900: #2b2b2b;
+
+  --color-lavender-50: #f5f5ff;
+  --color-lavender-100: #ecedff;
+  --color-lavender-200: #d6d9ff;
+  --color-lavender-300: #bdc1ff;
+  --color-lavender-400: #a1a7ff;
+  --color-lavender-500: #8389f5;
+
+  --color-ink-25: #fcfcfd;
+  --color-ink-50: #f7f8fa;
+  --color-ink-100: #f0f2f5;
+  --color-ink-200: #e3e7ed;
+  --color-ink-300: #cdd3dd;
+  --color-ink-400: #9aa3b2;
+  --color-ink-500: #687385;
+  --color-ink-600: #4a5465;
+  --color-ink-700: #363e4c;
+  --color-ink-800: #212934;
+  --color-ink-900: #191b22;
+  --color-ink-950: #0e1015;
+
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 2px 8px -2px rgb(16 24 40 / 0.06);
+  --shadow-lift: 0 2px 4px rgb(16 24 40 / 0.04), 0 16px 32px -12px rgb(16 24 40 / 0.18);
+  --shadow-pop: 0 12px 40px -8px rgb(8 19 92 / 0.28);
+
+  --animate-fade-in: fade-in 0.35s ease-out both;
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-scale-in: scale-in 0.18s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-slide-in-right: slide-in-right 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-slide-in-left: slide-in-left 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scale-in {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes slide-in-right {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+  @keyframes slide-in-left {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+  }
+  @keyframes shimmer {
+    from { background-position: -400px 0; }
+    to { background-position: 400px 0; }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-white font-sans text-ink-800;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  h1, h2, h3, h4 {
+    @apply text-ink-900;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    @apply bg-brand-200 text-brand-950;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+  }
+  /*
+   * Keep the focused control clear of sticky chrome (WCAG 2.4.11) when the browser scrolls it into
+   * view: the 72px public header, the 64px portal header (+40px while "viewing as"), and sticky
+   * bottom action bars (mark them with [data-sticky-actions]). Applied to the focused element only,
+   * so in-page anchors keep their own scroll-mt-* offsets.
+   */
+  :focus {
+    scroll-margin-top: 5.5rem;
+    scroll-margin-bottom: 1.5rem;
+  }
+  html:has([data-portal-shell]) :focus {
+    scroll-margin-top: 5rem;
+  }
+  html:has([data-impersonating]) :focus {
+    scroll-margin-top: 7.5rem;
+  }
+  html:has([data-sticky-actions]) :focus {
+    scroll-margin-bottom: 8rem;
+  }
+  /* Dialogs have no sticky page chrome to clear… */
+  html [role='dialog'] :focus {
+    scroll-margin-top: 1rem;
+    scroll-margin-bottom: 1rem;
+  }
+  /* …and controls inside sticky chrome never need the page to scroll. */
+  html [data-sticky-chrome] :focus,
+  html [data-sticky-actions] :focus {
+    scroll-margin: 0;
+  }
+  /* Programmatic focus targets (page heading / main after a route change) don't need a ring. */
+  [data-focus-target]:focus,
+  main[tabindex='-1']:focus {
+    outline: none;
+  }
+  button:not(:disabled):not([aria-disabled='true']),
+  [role='button']:not([aria-disabled='true']) {
+    cursor: pointer;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Page width container used across the public site and portals. */
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+  .eyebrow {
+    @apply text-xs font-semibold tracking-[0.18em] text-brand-700 uppercase;
+  }
+  .display-heading {
+    @apply font-display font-semibold tracking-tight text-ink-900;
+    font-variation-settings: 'opsz' 96, 'SOFT' 30, 'WONK' 0;
+  }
+  .prose-wh {
+    @apply text-base leading-7 text-ink-600;
+  }
+  .prose-wh p + p {
+    @apply mt-4;
+  }
+  .skeleton {
+    background: linear-gradient(90deg, var(--color-ink-100) 0px, var(--color-ink-50) 120px, var(--color-ink-100) 240px);
+    background-size: 800px 100%;
+    @apply animate-shimmer;
+  }
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ink-300) transparent;
+  }
+  /*
+   * Horizontal scroller with edge fades that only appear on the side that has more content.
+   * The useScrollFade() hook (components/ui/Tabs.tsx) toggles data-fade-start / data-fade-end.
+   */
+  .scroll-fade-x {
+    --fade: 2.5rem;
+    scroll-padding-inline: var(--fade);
+  }
+  .scroll-fade-x[data-fade-end] {
+    mask-image: linear-gradient(to right, #000 calc(100% - var(--fade)), transparent);
+  }
+  .scroll-fade-x[data-fade-start] {
+    mask-image: linear-gradient(to left, #000 calc(100% - var(--fade)), transparent);
+  }
+  .scroll-fade-x[data-fade-start][data-fade-end] {
+    mask-image: linear-gradient(to right, transparent, #000 var(--fade), #000 calc(100% - var(--fade)), transparent);
+  }
+  /*
+   * Neutral shade for white text over hero photos (keeps text at WCAG AA without tinting the photo
+   * blue). Even across the photo on phones and tablets, where text spans the full width; from lg up it
+   * sits behind the text column and fades out so the rest of the photo stays true-color.
+   */
+  .hero-shade {
+    background: rgb(14 16 21 / 0.55);
+  }
+  @media (min-width: 1024px) {
+    .hero-shade {
+      background: linear-gradient(90deg, rgb(14 16 21 / 0.74) 0%, rgb(14 16 21 / 0.62) 60%, rgb(14 16 21 / 0.5) 75%, rgb(14 16 21 / 0.15) 100%);
+    }
+  }
+  @media (min-width: 1280px) {
+    .hero-shade {
+      background: linear-gradient(90deg, rgb(14 16 21 / 0.74) 0%, rgb(14 16 21 / 0.6) 55%, rgb(14 16 21 / 0.42) 68%, rgb(14 16 21 / 0.08) 100%);
+    }
+  }
+  /* "Skip to content" link: hidden until focused, then a clear white pill over any background. */
+  .skip-link {
+    @apply fixed top-3 left-3 z-[300] -translate-y-40 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-brand-900 shadow-pop ring-2 ring-brand-900 transition-transform;
+  }
+  .skip-link:focus {
+    @apply translate-y-0 outline-none;
+  }
+}
+
+/*
+ * User-written text (descriptions, notes, chat messages, lead messages, pasted links): wraps long
+ * unbroken strings instead of widening the page, keeps the writer's line breaks, and lets the box
+ * shrink inside flex/grid rows. For single-line titles use `min-w-0 wrap-anywhere` (or `truncate`).
+ */
+@utility text-user {
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+  min-width: 0;
+}
+/* Alias of text-user. */
+@utility user-text {
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+  min-width: 0;
+}
